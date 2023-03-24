@@ -10,6 +10,8 @@ void print_word(string &word, map<string, int> &freq) {
 }
 
 int main() {
+	// U deque spremamo sve rijeci po redu, a u mapi pamtimo
+	// koliko se puta svaka rijec pojavila.
 	deque<string> words;
 	map<string, int> occurences;
 

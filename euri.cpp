@@ -10,12 +10,15 @@ using namespace std;
 
 int main() {
 	string line, result;
+
+	// Prvo cijeli tekst ucitavamo u string `result`.
 	while (getline(cin, line)) {
 		result.append(line);
 		result.append("\n");
 	}
 	size_t start = 0, hrk;
-	do {	
+	do {
+		// Pronalazimo prvu iducu instancu od "HRK" u tekstu.
 		hrk = result.find("HRK", start);
 		start = hrk + 3;
 		size_t kraj = 0, poc = 0;
@@ -23,10 +26,16 @@ int main() {
 			continue;
 		if (hrk == string::npos)
 			break;
+
+		// Trazimo zadnji dio broja ispred "HRK" tako da idemo
+		// ispred svih razmaka, novih redova i sl.
 		kraj = result.find_last_not_of(" \t\f\v\n\r", hrk - 1);
+		// Sada trazimo pocetak niza znamenki, "." i "-".
 		poc = result.find_last_not_of("0123456789.-", kraj);
 		if (poc < kraj) {
 			string kune_str = result.substr(poc + 1, kraj - poc);
+
+			// Ako nije broj, onda ce `stof` baciti gresku.
 			try {
 				float kune = stof(kune_str);
 				float euri = kune / RATIO;
