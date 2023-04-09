@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -16,7 +17,8 @@ int main()
 {
     unordered_map<string, natjecatelj> natjecatelji;
     string line;
-    while (getline(cin, line)) {
+    ifstream rezultati("rezultati.txt");
+    while (getline(rezultati, line)) {
         natjecatelj novi;
         stringstream ss(line);
         string rijec;
@@ -33,21 +35,25 @@ int main()
     for (int i = 0; i < natjecatelji.bucket_count(); i++) {
         if (natjecatelji.bucket_size(i) == 0)
             continue;
-        cout << "Pretinac br. " << i << ": ";
+        cout << "Pretinac br. " << i << ": " << endl;
         unordered_map<string, natjecatelj>::local_iterator it;
         for (it = natjecatelji.begin(i); it != natjecatelji.end(i); ++it) {
-            cout << "Zaporka: " << it->first << ", Bodovi: ";
+            cout << it->first << " ";
             for (int j = 0; j < 5; j++)
-                cout << it->second.bodovi.at(j) << ", ";
-            cout << "Ime: " << it->second.ime << endl;
+                cout << it->second.bodovi.at(j) << " ";
+            cout << it->second.ime << endl;
         }
         cout << endl;
     }
     cout << "Unesite zaporku natjecatelja: ";
     string query;
     cin >> query;
-    natjecatelj& target = natjecatelji.find(query)->second;
+    auto target = natjecatelji.find(query);
+    if (target == natjecatelji.end()) {
+        cout << "Nema natjecatelja s tom sifrom." << endl;
+        return -1;
+    }
     for (int i = 0; i < 5; i++)
-        cout << "Bodovi na " << (i + 1) << ". zadatku: " << target.bodovi.at(i) << endl;
-    cout << "Ime i prezime: " << target.ime << endl;
+        cout << "Bodovi na " << (i + 1) << ". zadatku: " << target->second.bodovi.at(i) << endl;
+    cout << "Ime i prezime: " << target->second.ime << endl;
 }
