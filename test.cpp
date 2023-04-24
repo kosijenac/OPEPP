@@ -3,9 +3,23 @@
 
 using namespace std;
 
+struct A {
+    int* br;
+    A()
+        : br(new int(5))
+    {
+    }
+    ~A() { delete br; }
+};
+
+void f(const A a)
+{
+    cout << *(a.br) << endl;
+}
+
 int main()
 {
-    string s("123g"), t("12.3EUR");
-    cout << stoi(s) << endl
-         << stod(t) << endl;
+    A a;
+    f(a);
+    return 0;
 }
