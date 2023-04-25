@@ -5,10 +5,11 @@
 
 using namespace std;
 
-/* Graf f(const Graf& G) {
+Graf f(const Graf& G)
+{
     Graf H = G;
     return H;
-} */
+}
 
 int main()
 {
@@ -22,10 +23,10 @@ int main()
         return -1;
     }
     Graf G(dat);
-    /* Graf J;
+    Graf J;
     const Graf H(G);
     J = J = H;
-    G = f(J); */
+    G = f(J);
     Graf::vrh pocetni, zavrsni;
     cout << "Unesite pocetni vrh: " << endl;
     cin >> pocetni;
@@ -38,8 +39,7 @@ int main()
     else {
         cout << "Ispis grafa:" << endl;
         G.ispis().optimalni(pocetni, pocetni).optimalni(pocetni, zavrsni);
-        /* H.ispis().optimalni(pocetni,pocetni)
-            .optimalni(pocetni,zavrsni); */
+        H.ispis().optimalni(pocetni, pocetni).optimalni(pocetni, zavrsni);
     }
 
     return 0;
