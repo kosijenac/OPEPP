@@ -1,9 +1,9 @@
 #include "Graf.h"
 #include <fstream>
 #include <iostream>
-#include <set>
 #include <sstream>
 #include <stdlib.h>
+#include <string>
 
 Graf::Graf()
 {
@@ -33,18 +33,11 @@ Graf::Graf(std::ifstream& fs)
     init_bridovi();
     std::string line;
     while (getline(fs, line)) {
-        // std::cout << "line: " << line << std::endl;
         std::stringstream ss(line);
         int first, second, price;
         ss >> first >> second >> price;
         bridovi[first][second] = price;
     }
-    // std::cout << "I have been created!" << std::endl;
-    // for (vrh i = 0; i < n; i++) {
-    //     for (vrh j = 0; j < n; j++)
-    //         std::cout << (bridovi[i][j] == __INT_MAX__ ? 1024 : bridovi[i][j]) << "\t";
-    //     std::cout << std::endl;
-    // }
 }
 Graf::Graf(const Graf& original)
     : n(original.n)
@@ -90,13 +83,17 @@ Graf& Graf::operator=(Graf&& rhs) noexcept
 }
 Graf::~Graf()
 {
-    std::cout << "I'm a destructor!" << std::endl;
+    // std::cout << "I'm a destructor!" << std::endl;
     for (vrh i = 0; i < n; i++)
         free(bridovi[i]);
     free(bridovi);
 }
-bool Graf::ima_vrh(vrh x)
+int Graf::getBrVrhova() const { return n; }
+int Graf::getBrid(vrh a, vrh b) const { return ima_vrh(a) && ima_vrh(b) ? bridovi[a][b] : __INT_MAX__; }
+void Graf::setBrid(vrh a, vrh b, int cijena) { bridovi[a][b] = cijena; }
+bool Graf::ima_vrh(vrh x) const
 {
+    // Ako ne zelimo promatrati izolirane vrhove, odkomentiramo donji dio.
     // for (vrh i = 0; i < n; i++)
     //     if (bridovi[i][x] != __INT_MAX__ || bridovi[x][i] != __INT_MAX__)
     //         return true;
@@ -128,7 +125,6 @@ const Graf& Graf::optimalni(vrh a, vrh b) const
                     udaljenost[j] = udaljenost[i] + bridovi[i][j];
                     prethodnik[j] = i;
                 }
-    // std::cout << udaljenost[b] << std::endl;
     if (udaljenost[b] == __INT_MAX__) {
         std::cout << "Ne postoji put od " << a << " do " << b << "." << std::endl;
         free(udaljenost);
@@ -137,7 +133,6 @@ const Graf& Graf::optimalni(vrh a, vrh b) const
     }
     for (vrh v = 0; v < n; v++) {
         vrh u = prethodnik[v];
-        // std::cout << udaljenost[u] << "," << bridovi[u][v] << "," << udaljenost[v] << std::endl;
         if (u >= 0 && udaljenost[u] + bridovi[u][v] < udaljenost[v]) {
             std::cout << "Postoji negativan ciklus!" << std::endl;
             free(udaljenost);
@@ -153,4 +148,10 @@ const Graf& Graf::optimalni(vrh a, vrh b) const
     free(udaljenost);
     free(prethodnik);
     return *this;
+}
+// Kako su metode ispis i optimalni iste neovisno o konstantnosti, donje dvije dobivamo castanjem.
+Graf& Graf::ispis() { return const_cast<Graf&>(const_cast<const Graf*>(this)->ispis()); }
+Graf& Graf::optimalni(vrh a, vrh b)
+{
+    return const_cast<Graf&>(const_cast<const Graf*>(this)->optimalni(a, b));
 }

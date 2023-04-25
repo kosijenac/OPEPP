@@ -18,9 +18,14 @@ public:
     Graf(Graf&&) noexcept;
     Graf& operator=(Graf&&) noexcept;
     ~Graf();
-    bool ima_vrh(vrh);
+    int getBrVrhova() const;
+    int getBrid(vrh, vrh) const;
+    void setBrid(vrh, vrh, int);
+    bool ima_vrh(vrh) const;
     const Graf& ispis() const;
     const Graf& optimalni(vrh, vrh) const;
+    Graf& ispis();
+    Graf& optimalni(vrh, vrh);
 };
 
 #endif
