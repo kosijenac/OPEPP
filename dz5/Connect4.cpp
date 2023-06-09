@@ -55,7 +55,7 @@ int Connect4::step(sf::RenderWindow& win, int col)
         board[row][col] = turn;
         this->draw_board(win);
         win.display();
-        sf::sleep(sf::milliseconds(300 / h * sqrt(row)));
+        sf::sleep(sf::milliseconds(200 / h * sqrt(row)));
         board[row][col] = EMPTY;
     }
     board[next_row][col] = turn;
@@ -143,7 +143,7 @@ void Connect4::draw_board(sf::RenderWindow& win) const
             unsigned int size = std::min(win.getSize().x / w, win.getSize().y / h);
             unsigned int pos_x = win.getSize().x * c / w, pos_y = win.getSize().y * (h - 1 - r) / h;
             sf::CircleShape p(size / 2), out(size / 3), mid(size / 5), in(size / 15);
-            p.setOutlineColor(sf::Color::Blue);
+            p.setOutlineColor(sf::Color(0, 0, 139));
             p.setOutlineThickness(-0.05f * size);
             out.setFillColor(sf::Color::Transparent);
             mid.setFillColor(sf::Color::Transparent);

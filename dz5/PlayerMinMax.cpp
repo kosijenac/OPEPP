@@ -4,6 +4,15 @@
 #include <random>
 #include <vector>
 
+// ovo dvoje je potrebno da radi i na windowsima i na linuxu
+#ifndef __INT_MAX__
+#define __INT_MAX__ INT_MAX
+#endif
+
+#ifndef __DBL_MAX__
+#define __DBL_MAX__ DBL_MAX
+#endif
+
 Node::Node(State* state)
 {
     this->state = state;

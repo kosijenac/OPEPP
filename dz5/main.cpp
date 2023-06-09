@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
             Connect4 env(h, w);
             // Podesiti CPUonTurn na true i PLAYER2 u PLAYER1 ako zelimo da CPU igra prvi
             bool CPUonTurn = false;
-            PlayerMinMax bot(PLAYER2, w * 4096);
+            PlayerMinMax bot(PLAYER2, w * 1024);
             while (win.waitEvent(d) && !env.get_status()) {
                 env.draw_board(win);
                 if (CPUonTurn) {
